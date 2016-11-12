@@ -38,13 +38,27 @@ func main() {
 		Name string `db:"name"`
 	}{}
 
-	if err := db.Select(&foos, "select id, name from foo"); err != nil {
+	if err := db.Select(&foos, "SELECT id, name FROM foo"); err != nil {
 		log.Fatal(err)
 	}
 
 	for _, f := range foos {
-		log.Println("foo:", f.ID, f.Name)
+		log.Printf("%+v\n", f)
 	}
+
+	var ids = []int{2}
+	query, args, err := sqlx.In("SELECT id, name FROM foo WHERE id IN (?);", ids)
+
+	// sqlx.In returns queries with the `?` bindvar, we can rebind it for our backend
+	query = db.Rebind(query)
+
+	foos = foos[:0]
+
+	if err := db.Select(&foos, query, args...); err != nil {
+		log.Fatal("Error with IN query.", err)
+	}
+
+	log.Printf("%+v\n", foos)
 }
 
 func doubleInsert(db *sqlx.DB) error {
