@@ -70,6 +70,7 @@ func doubleInsert(db *sqlx.DB) error {
 	{
 		stmt, err := tx.Prepare(insertFooSQL)
 		if err != nil {
+			tx.Rollback()
 			return err
 		}
 		defer stmt.Close()
@@ -83,6 +84,7 @@ func doubleInsert(db *sqlx.DB) error {
 	{
 		stmt, err := tx.Prepare(insertFooSQL)
 		if err != nil {
+			tx.Rollback()
 			return err
 		}
 		defer stmt.Close()
