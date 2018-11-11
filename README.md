@@ -1,4 +1,4 @@
-### Example of database manipulation in Go with sqlite and sqlx packages
+### Example of database manipulation in Go with [sqlite](https://github.com/mattn/go-sqlite3) and [sqlx](https://github.com/jmoiron/sqlx) packages
 
 ### Tracing with [OpenCensus](https://opencensus.io/) and [Jaeger](https://www.jaegertracing.io/)
 
